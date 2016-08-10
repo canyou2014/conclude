@@ -1,11 +1,17 @@
 一.kalibr camera-imu外参标定 https://github.com/ethz-asl/kalibr
 1.安装，参考kalibr的wiki(https://github.com/ethz-asl/kalibr/wiki/installation)
   1）安装ros indigo
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list' 
+wget http://packages.ros.org/ros.key -O - | sudo apt-key add - 
+sudo apt-get update 
+sudo apt-get install ros-indigo-desktop python-rosinstall python-rosdep -y 
+rosdep init 
+rosdep update
   2）安装依赖项
 sudo apt-get install python-setuptools python-rosinstall ipython libeigen3-dev libboost-all-dev doxygen libopencv-dev ros-indigo-vision-opencv ros-indigo-image-transport-plugins ros-indigo-cmake-modules python-software-properties software-properties-common libpoco-dev python-matplotlib python-git python-pip ipython libtbb-dev libblas-dev liblapack-dev python-catkin-tools libv4l-dev 
 
 sudo pip install python-igraph --upgrade
-  2）创建catkin工作空间,安装kalibr
+  3）创建catkin工作空间,安装kalibr
 mkdir -p ~/kalibr_workspace/src 
 cd ~/kalibr_workspace 
 source /opt/ros/indigo/setup.bash 
@@ -41,7 +47,7 @@ source ~/.bashrc
  	...
 	1386030208736607488,0.5,-0.1,-0.1,8.1,-1.9,-3.3
     然后运行:kalibr_bagcreater --folder dataset-dir --output-bag awsome.bag (其中aswome.bag为输出的bag文件名，自行命名)
-  2)yaml  imu参数（加计和陀螺的噪声密度，随机游走），相机内参，标定模板的参数共三个文件（https://github.com/ethz-asl/kalibr/wiki/yaml-formats）
+  2)yaml  包括imu参数（加计和陀螺的噪声密度，随机游走），相机内参，标定模板参数共三个文件（https://github.com/ethz-asl/kalibr/wiki/yaml-formats）
 3.开始标定
   运行：kalibr_calibrate_imu_camera --target april_6x6.yaml --cam camchain.yaml --imu imu_adis16448.yaml --bag dynamic.bag --bag-from-to 5 45
   其中april_6x6.yaml，camchain.yaml，imu_adis16448.yaml，dynamic.bag分别为标定模板，相机内参，imu噪声参数文件以及数据集bag， 5 45表示取5到45s内的数据。kalibr_calibrate_imu_camera --h则表示对imu和camera时间漂移进行标定。
