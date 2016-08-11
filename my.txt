@@ -81,8 +81,8 @@ source ~/.bashrc
  	...
 	1386030208736607488,0.5,-0.1,-0.1,8.1,-1.9,-3.3
 五.OS3D-FG的使用
-  1.连接USB，如果没相应usb，请在线更新
-  2.通过设备管理器-端口查看端口号，修改Debug/Release中inertiallabs_sdk_lite.ini配置文件的com，以及频率等相关设置
+  1.连接USB，如果没相应usb驱动，请在线更新
+  2.通过设备管理器-端口查看端口号com，修改Debug/Release中inertiallabs_sdk_lite.ini配置文件的com，并修改频率等相关设置
   3.SDK使用：
      1) int device = iInertialLabs_SDK_Lite_CreateDevice(workset)  //连接设备，workset为inertiallabs_sdk_lite.ini配置文件中的worksetNode号
      2) getSensorsData(device) //获取数据
@@ -90,7 +90,21 @@ source ~/.bashrc
         用iInertialLabs_SDK_Lite_DataFrame时，则可通过data->DataEntry[0].Calibrated.dCalibratedAcc获取矫正后的数据，通过data->DataEntry[0].Raw.dAcc获取原书数据，以此类推
      4) iInertialLabs_SDK_Lite_CloseDevice(device) //关闭设备
 
-，
+六.Tango SDK(https://developers.google.com/tango/apis/java/)
+   1.现在这个设备的tango core版本较旧，无法使用最新的tango，可使用旧版本SDK,或者更新tango内核，再更新tango core（不更新内核无法更新tango core），然后可以使用最新版本的SDK（参考https://github.com/googlesamples/tango-examples-java/issues/72）
+   2.获取camera-imu外参：
+        TangoCoordinateFramePair framePair = new TangoCoordinateFramePair();
+        TangoPoseData color2IMUPose = new TangoPoseData();
+        framePair.baseFrame = TangoPoseData.COORDINATE_FRAME_IMU;
+        framePair.targetFrame = TangoPoseData.COORDINATE_FRAME_CAMERA_COLOR;
+        color2IMUPose = mTango.getPoseAtTime(0.0, framePair); // color2IMUPose.getTranslationAsFloats()和color2IMUPose.getRotationAsFloats()
+   3.获取camera内参：
+        TangoCameraIntrinsics mTangopara = mTango.getCameraIntrinsics(TangoCameraIntrinsics.TANGO_CAMERA_FISHEYE);
+七.META头盔的IMU姿态的初步融合
+   1.IMU数据获取，通过credis获取
+   2.IMU固定偏差矫正
+   3.通过IMU计算transformation
+  
 
 
 
