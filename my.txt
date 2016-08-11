@@ -62,8 +62,9 @@ source ~/.bashrc
 
 三.okvis （https://github.com/ethz-asl/okvis）
   1.安装：按照okvis的readme.d安装即可，安装和编译时需要翻墙
-  2.运行：./okvis_app_synchronous path/to/okvis/config/config_fpga_p2_euroc.yaml path/to/MH_01_easy/mav0/  其中参数有两个，参数文件和数据集路径
-  3.需要修改输入，修改/okvis_apps/okvis_app_synchronous.cpp 文件
+  2.运行：./okvis_app_synchronous path/to/okvis/config/config_fpga_p2_euroc.yaml path/to/MH_01_easy/mav0/  其中两个参数分别为confi文件和数据集路径
+  3.需要修改输入输出格式，修改/okvis_apps/okvis_app_synchronous.cpp 文件
+  4.配置config文件，根据okvis/config/config_fpga_p2_euroc.yaml格式进行修改
 
 
 四.multi sensor fusion(https://github.com/ethz-asl/ethzasl_sensor_fusion或https://github.com/ethz-asl/ethzasl_msf)
@@ -79,6 +80,17 @@ source ~/.bashrc
 	1385030208736607488,0.5,-0.2,-0.1,8.1,-1.9,-3.3
  	...
 	1386030208736607488,0.5,-0.1,-0.1,8.1,-1.9,-3.3
+五.OS3D-FG的使用
+  1.连接USB，如果没相应usb，请在线更新
+  2.通过设备管理器-端口查看端口号，修改Debug/Release中inertiallabs_sdk_lite.ini配置文件的com，以及频率等相关设置
+  3.SDK使用：
+     1) int device = iInertialLabs_SDK_Lite_CreateDevice(workset)  //连接设备，workset为inertiallabs_sdk_lite.ini配置文件中的worksetNode号
+     2) getSensorsData(device) //获取数据
+     3) dataReceiver函数data类型可以是:iInertialLabs_SDK_Lite_DataFrame，iInertialLabs_SDK_Lite_FullDataEntry，iInertialLabs_SDK_Lite_DataQuatEntry， iInertialLabs_SDK_Lite_DataCalibratedEntry
+        用iInertialLabs_SDK_Lite_DataFrame时，则可通过data->DataEntry[0].Calibrated.dCalibratedAcc获取矫正后的数据，通过data->DataEntry[0].Raw.dAcc获取原书数据，以此类推
+     4) iInertialLabs_SDK_Lite_CloseDevice(device) //关闭设备
+
+，
 
 
 
