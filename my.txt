@@ -51,7 +51,7 @@ source ~/.bashrc
 3.开始标定
   运行：kalibr_calibrate_imu_camera --target april_6x6.yaml --cam camchain.yaml --imu imu_adis16448.yaml --bag dynamic.bag --bag-from-to 5 45
   其中april_6x6.yaml，camchain.yaml，imu_adis16448.yaml，dynamic.bag分别为标定模板，相机内参，imu噪声参数文件以及数据集bag， 5 45表示取5到45s内的数据。kalibr_calibrate_imu_camera --h则表示对imu和camera时间漂移进行标定。
-
+####################################################################
 二.rovio （https://github.com/ethz-asl/rovio） 
 1.安装
   1)安装依赖项，ros和kindr (https://github.com/ethz-asl/kindr)
@@ -59,14 +59,15 @@ source ~/.bashrc
   3)编译：catkin build rovio --cmake-args -DCMAKE_BUILD_TYPE=Release 或 catkin build rovio --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON（显示结果）
   4)添加环境变量:source ~/workspace/devel/setup.bash  或添加到.bashrc: echo "source ~/workspace/devel/setup.bash" >> ~/.bashrc
 2.运行: 1)roscore  2)运行launch：roslaunch rovio rovio_node.launch  3)播放数据：rosbag play dataset.bag
-
+3.修改从bag读取到直接从文件夹中读取，从src/rovio_rosbag_loader.cpp,和include/RovioNode.hpp中修改，现已修改读取imu数据和camera数据部分，读取config部分尚未修改。
+#########################################################################
 三.okvis （https://github.com/ethz-asl/okvis）
   1.安装：按照okvis的readme.d安装即可，安装和编译时需要翻墙
   2.运行：./okvis_app_synchronous path/to/okvis/config/config_fpga_p2_euroc.yaml path/to/MH_01_easy/mav0/  其中两个参数分别为confi文件和数据集路径
   3.需要修改输入输出格式，修改/okvis_apps/okvis_app_synchronous.cpp 文件
   4.配置config文件，根据okvis/config/config_fpga_p2_euroc.yaml格式进行修改
 
-
+#########################################################################
 四.multi sensor fusion(https://github.com/ethz-asl/ethzasl_sensor_fusion或https://github.com/ethz-asl/ethzasl_msf)
   说明：已去除ros,输入是slam得到的pose或position，以及imu六轴数据-陀螺和加计
   slam.csv格式：
@@ -80,6 +81,7 @@ source ~/.bashrc
 	1385030208736607488,0.5,-0.2,-0.1,8.1,-1.9,-3.3
  	...
 	1386030208736607488,0.5,-0.1,-0.1,8.1,-1.9,-3.3
+#########################################################################
 五.OS3D-FG的使用
   1.连接USB，如果没相应usb驱动，请在线更新
   2.通过设备管理器-端口查看端口号com，修改Debug/Release中inertiallabs_sdk_lite.ini配置文件的com，并修改频率等相关设置
@@ -89,7 +91,7 @@ source ~/.bashrc
      3) dataReceiver函数data类型可以是:iInertialLabs_SDK_Lite_DataFrame，iInertialLabs_SDK_Lite_FullDataEntry，iInertialLabs_SDK_Lite_DataQuatEntry， iInertialLabs_SDK_Lite_DataCalibratedEntry
         用iInertialLabs_SDK_Lite_DataFrame时，则可通过data->DataEntry[0].Calibrated.dCalibratedAcc获取矫正后的数据，通过data->DataEntry[0].Raw.dAcc获取原书数据，以此类推
      4) iInertialLabs_SDK_Lite_CloseDevice(device) //关闭设备
-
+########################################################################
 六.Tango SDK(https://developers.google.com/tango/apis/java/)
    1.现在这个设备的tango core版本较旧，无法使用最新的tango，可使用旧版本SDK,或者更新tango内核，再更新tango core（不更新内核无法更新tango core），然后可以使用最新版本的SDK（参考https://github.com/googlesamples/tango-examples-java/issues/72）
    2.获取camera-imu外参：
@@ -100,11 +102,14 @@ source ~/.bashrc
         color2IMUPose = mTango.getPoseAtTime(0.0, framePair); // color2IMUPose.getTranslationAsFloats()和color2IMUPose.getRotationAsFloats()
    3.获取camera内参：
         TangoCameraIntrinsics mTangopara = mTango.getCameraIntrinsics(TangoCameraIntrinsics.TANGO_CAMERA_FISHEYE);
+#######################################################################
 七.META头盔的IMU姿态的初步融合
    1.IMU数据获取，通过credis获取
    2.IMU固定偏差矫正
    3.通过IMU计算transformation
-  
+#######################################################################
+八.ORB_SLAM2_ANDROID 和PTAM_ANDROID
+   直接导入eclipse就能够运行
 
 
 
