@@ -105,8 +105,9 @@ source ~/.bashrc
 #######################################################################
 七.META头盔的IMU姿态的初步融合
    1.IMU数据获取，通过credis获取
-   2.IMU固定偏差矫正
-   3.通过IMU计算transformation
+   2.IMU固定偏差矫正:resolveImu.startIMUTimer(0);
+   3.通过IMU计算位姿:resolveImu.startIMUTimer(1);
+   4.获取计算之后的位姿：resolveImu.getIMURT(cbn,pos); 
 #######################################################################
 八.ORB_SLAM2_ANDROID 和PTAM_ANDROID
    直接导入eclipse就能够运行
