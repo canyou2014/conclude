@@ -59,7 +59,9 @@ source ~/.bashrc
   3)编译：catkin build rovio --cmake-args -DCMAKE_BUILD_TYPE=Release 或 catkin build rovio --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON（显示结果）
   4)添加环境变量:source ~/workspace/devel/setup.bash  或添加到.bashrc: echo "source ~/workspace/devel/setup.bash" >> ~/.bashrc
 2.运行: 1)roscore  2)运行launch：roslaunch rovio rovio_node.launch  3)播放数据：rosbag play dataset.bag
-3.修改从bag读取到直接从文件夹中读取，从src/rovio_rosbag_loader.cpp,和include/RovioNode.hpp中修改，现已修改读取imu数据和camera数据部分，读取config部分尚未修改。
+3.配置文件：在cfg/rovio.info 为大部分参数，包括camera-imu外参，初始状态，初始协防差参数，噪声参数等; cfg/中其他文件为camera内参
+4.修改从bag读取到直接从文件夹中读取，从src/rovio_rosbag_loader.cpp,和include/RovioNode.hpp中修改，现已修改读取imu数据和camera数据部分
+
 #########################################################################
 三.okvis （https://github.com/ethz-asl/okvis）
   1.安装：按照okvis的readme.d安装即可，安装和编译时需要翻墙
