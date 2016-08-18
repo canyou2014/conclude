@@ -114,7 +114,8 @@ source ~/.bashrc
    3.通过IMU计算位姿:resolveImu.startIMUTimer(1);
    4.获取计算之后的位姿：resolveImu.getIMURT(cbn,pos); 
 #######################################################################
-八.ORB_SLAM2_ANDROID 和PTAM_ANDROID
+八.ORB_SLAM2_ANDROID(https://github.com/FangGet/ORB_SLAM2_Android) 和 PTAM_ANDROID(https://github.com/ICGJKU/APTAM-GPL)
+
    直接导入eclipse就能够运行
 
 
